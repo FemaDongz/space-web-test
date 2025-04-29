@@ -1,0 +1,1007 @@
+:root {
+    --primary-bg: #0d0d0d;
+    --secondary-bg: #151515;
+    --text-color: #f5f5f7;
+    --accent-color: #a855f7; /* Neon purple accent */
+    --accent-color-alt: #8a2be2; /* Alternative purple */
+    --accent-glow: rgba(168, 85, 247, 0.35);
+    --box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --box-bg: rgba(15, 15, 15, 0.5);
+    --box-border: rgba(168, 85, 247, 0.15);
+    --gradient-start: rgba(168, 85, 247, 0.2);
+    --gradient-end: rgba(138, 43, 226, 0.1);
+    --star-color-1: rgba(255, 255, 255, 0.8);
+    --star-color-2: rgba(168, 85, 247, 0.8);
+    --transition: all 0.3s ease;
+    --year-progress: #00ff4c; /* Neon green for year progress */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    height: 100%;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--primary-bg);
+    color: var(--text-color);
+    transition: var(--transition);
+    overflow-y: auto;
+    position: relative;
+    min-height: 100%;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 2;
+}
+
+.main-content {
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Overlay Particles */
+.overlay-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.particle {
+    position: absolute;
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--accent-glow);
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Loading Screen */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, var(--secondary-bg), var(--primary-bg));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: opacity 0.8s ease;
+}
+
+.loading-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+}
+
+.loading-spinner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px dashed var(--accent-color);
+    animation: spin 3s linear infinite;
+    box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.loading-percentage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    text-shadow: 0 0 10px var(--accent-glow);
+}
+
+.loading-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--text-color);
+    margin-top: 20px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px var(--accent-glow);
+}
+
+.loading-subtext {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 10px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 5px var(--accent-glow);
+}
+
+/* Intro Overlay */
+.intro-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, var(--secondary-bg), var(--primary-bg));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1100;
+    opacity: 0;
+}
+
+.welcome-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    text-align: center;
+    background: linear-gradient(to right, var(--text-color), var(--accent-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 15px var(--accent-glow);
+    opacity: 0;
+    position: relative;
+}
+
+.welcome-text::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 40px;
+    background-color: var(--accent-color);
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: blink 0.7s infinite;
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.explore-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    color: var(--accent-color);
+    margin-top: 2rem;
+    text-shadow: 0 0 10px var(--accent-glow);
+    opacity: 0;
+}
+
+/* Stars Background */
+.stars {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.star {
+    position: absolute;
+    background-color: var(--star-color-1);
+    border-radius: 50%;
+    animation: twinkle var(--duration) ease-in-out infinite;
+    opacity: 0;
+}
+
+.star.purple {
+    background-color: var(--star-color-2);
+}
+
+/* Moon Icon */
+.moon {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    width: 40px;
+    height: 40px;
+    z-index: 100;
+    filter: drop-shadow(0 0 10px var(--accent-glow));
+    display: none;
+}
+
+.moon svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Section Styles */
+.section {
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+}
+
+/* Intro Section */
+.intro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.intro.active {
+    opacity: 1;
+}
+
+.intro-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1000px;
+    overflow: visible;
+}
+
+/* Solar System Text */
+.solar-system-text {
+    position: absolute;
+    top: 10rem; /* Positioned high relative to intro-content */
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    width: 150%;
+    color: var(--text-color);
+    text-shadow: 0 0 15px var(--accent-glow);
+    letter-spacing: 3px;
+    z-index: 4;
+}
+
+/* Solar System */
+.solar-system-container {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    margin: 14rem auto 2rem; /* Increased top margin to create space */
+    opacity: 0;
+    transition: opacity 1s ease;
+    overflow: visible;
+    z-index: 3;
+}
+
+.solar-system {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+
+.sun {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle, #ff9d00, #ff6a00);
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(255, 154, 0, 0.8);
+    z-index: 2;
+}
+
+.orbit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+}
+
+.planet {
+    position: absolute;
+    border-radius: 50%;
+    transform-origin: 50% 50%;
+}
+
+/* Planet Specific Styles */
+.mercury-orbit {
+    width: 80px;
+    height: 80px;
+}
+
+.mercury {
+    width: 4px;
+    height: 4px;
+    background-color: #b0b0b0;
+    top: -2px;
+    left: 50%;
+}
+
+.venus-orbit {
+    width: 120px;
+    height: 120px;
+}
+
+.venus {
+    width: 8px;
+    height: 8px;
+    background-color: #f4d03f;
+    top: -4px;
+    left: 50%;
+}
+
+.earth-orbit {
+    width: 160px;
+    height: 160px;
+}
+
+.earth {
+    width: 8px;
+    height: 8px;
+    background-color: #1e90ff;
+    top: -4px;
+    left: 50%;
+}
+
+.mars-orbit {
+    width: 200px;
+    height: 200px;
+}
+
+.mars {
+    width: 6px;
+    height: 6px;
+    background-color: #d35400;
+    top: -3px;
+    left: 50%;
+}
+
+.jupiter-orbit {
+    width: 240px;
+    height: 240px;
+}
+
+.jupiter {
+    width: 20px;
+    height: 20px;
+    background-color: #e67e22;
+    top: -10px;
+    left: 50%;
+}
+
+.saturn-orbit {
+    width: 280px;
+    height: 280px;
+}
+
+.saturn {
+    width: 16px;
+    height: 16px;
+    background-color: #f7dc6f;
+    top: -8px;
+    left: 50%;
+    position: relative;
+}
+
+.saturn-ring {
+    position: absolute;
+    width: 30px;
+    height: 6px;
+    background-color: rgba(247, 220, 111, 0.5);
+    border-radius: 100%;
+    top: 5px;
+    left: -7px;
+    transform: rotate(30deg);
+}
+
+.uranus-orbit {
+    width: 320px;
+    height: 320px;
+}
+
+.uranus {
+    width: 12px;
+    height: 12px;
+    background-color: #5dade2;
+    top: -6px;
+    left: 50%;
+}
+
+.neptune-orbit {
+    width: 360px;
+    height: 360px;
+}
+
+.neptune {
+    width: 11px;
+    height: 11px;
+    background-color: #2e86c1;
+    top: -5.5px;
+    left: 50%;
+}
+
+.pluto-orbit {
+    width: 390px;
+    height: 390px;
+}
+
+.pluto {
+    width: 3px;
+    height: 3px;
+    background-color: #bdc3c7;
+    top: -1.5px;
+    left: 50%;
+}
+
+/* Time and Year Progress */
+.time-progress-container {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 6rem;
+    padding: 1rem;
+    background: rgba(10, 10, 10, 0.7);
+    border-radius: 15px;
+    border: 1px solid var(--accent-glow);
+    box-shadow: 0 0 20px var(--accent-glow), 0 0 30px rgba(0, 255, 76, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.time-progress-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, var(--accent-glow), transparent);
+    animation: wave-glow 3s ease-in-out infinite;
+}
+
+.current-time {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    text-align: center;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px var(--accent-glow);
+}
+
+.year-progress {
+    width: 100%;
+}
+
+.progress-explanation {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+    text-align: center;
+    text-shadow: 0 0 5px var(--accent-glow);
+}
+
+.progress-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 5px var(--accent-glow);
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 6px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 0 10px var(--year-progress);
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--year-progress);
+    width: 0%;
+    border-radius: 3px;
+    box-shadow: 0 0 8px var(--year-progress);
+    transition: width 0.5s ease-in-out;
+}
+
+.progress-percentage {
+    font-size: 0.9rem;
+    color: var(--year-progress);
+    text-align: right;
+    margin-bottom: 0.25rem;
+    text-shadow: 0 0 5px var(--year-progress);
+}
+
+.progress-days {
+    font-size: 0.8rem;
+    color: var(--text-color);
+    opacity: 0.8;
+    text-align: right;
+    text-shadow: 0 0 5px var(--accent-glow);
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    animation: fade-in 1s ease 8s forwards;
+    z-index: 5;
+}
+
+.scroll-text {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    color: var(--accent-color);
+    font-family: 'Orbitron', sans-serif;
+    text-shadow: 0 0 10px var(--accent-glow);
+}
+
+.scroll-icon {
+    width: 30px;
+    height: 50px;
+    border: 2px solid var(--accent-color);
+    border-radius: 25px;
+    position: relative;
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.scroll-icon::before {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    left: 50%;
+    top: 8px;
+    transform: translateX(-50%);
+    animation: scroll-down 2s ease infinite;
+    box-shadow: 0 0 5px var(--accent-glow);
+}
+
+/* Projects Wrapper & Header */
+.projects-wrapper {
+    position: relative;
+    width: 100%;
+    padding: 2rem 0;
+}
+
+.projects-header {
+    text-align: center;
+    padding: 2rem 0;
+    background: rgba(10, 10, 10, 0.7);
+    backdrop-filter: blur(10px);
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var({},var(--text-color));
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* Project Slide & Box Styles */
+.project-slide {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0;
+}
+
+.project-box {
+    width: 90%;
+    max-width: 800px;
+    background: rgba(15, 15, 15, 0.3);
+    border-radius: 20px;
+    border: 1px solid var(--box-border);
+    box-shadow: 0 0 20px var(--accent-glow), 0 0 40px rgba(168, 85, 247, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    transform: perspective(1200px) rotateX(3deg);
+    backdrop-filter: blur(5px);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.project-box:hover {
+    transform: perspective(1200px) rotateX(0deg) translateY(-10px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 60px var(--accent-glow);
+}
+
+.project-box::before,
+.project-box::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.project-box::before {
+    background: linear-gradient(45deg, transparent, var(--accent-glow), transparent);
+    animation: wave-glow 4s ease-in-out infinite;
+    opacity: 0.4;
+    z-index: 0;
+}
+
+.project-box::after {
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.3), transparent);
+    animation: pulse-glow 6s ease-in-out infinite;
+    opacity: 0.3;
+    z-index: 0;
+}
+
+.project-image {
+    width: 100%;
+    height: 225px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+.project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.project-box:hover .project-image img {
+    transform: scale(1.05);
+}
+
+.project-content {
+    padding: 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.project-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+    text-shadow: 0 0 5px var(--accent-glow);
+}
+
+.project-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+    opacity: 0.85;
+}
+
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.project-tag {
+    background-color: rgba(168, 85, 247, 0.15);
+    color: var(--accent-color);
+    padding: 0.35rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.project-tag:hover {
+    background-color: var(--accent-color);
+    color: var(--primary-bg);
+}
+
+.project-button {
+    background-color: transparent;
+    color: var(--accent-color);
+    border: 2px solid var(--accent-color);
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+    outline: none;
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.project-button:hover {
+    background-color: var(--accent-color);
+    color: var(--secondary-bg);
+    box-shadow: 0 0 15px var(--accent-glow);
+}
+
+/* Animations */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+@keyframes twinkle {
+    0%, 100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes scroll-down {
+    0% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    75% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+    76% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(0);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0);
+        opacity: 0.8;
+    }
+    50% {
+        transform: translateY(-20px);
+        opacity: 0.3;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 0.8;
+    }
+}
+
+@keyframes wave-glow {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes pulse-glow {
+    0% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+}
+
+/* Media Queries */
+@media (max-width: 1200px) {
+    .solar-system-container {
+        width: 350px;
+        height: 350px;
+        margin: 12rem auto 2rem;
+    }
+
+    .solar-system-text {
+        font-size: 1.6rem;
+        top: 9rem;
+        width: 160%;
+    }
+
+    .time-progress-container {
+        max-width: 350px;
+    }
+
+    .project-box {
+        width: 95%;
+    }
+}
+
+@media (max-width: 992px) {
+    .welcome-text {
+        font-size: 2.2rem;
+    }
+
+    .explore-text {
+        font-size: 1.5rem;
+    }
+
+    .solar-system-container {
+        width: 300px;
+        height: 300px;
+        margin: 11rem auto 2rem;
+    }
+
+    .solar-system-text {
+        font-size: 1.4rem;
+        top: 8.5rem;
+        width: 170%;
+    }
+
+    .time-progress-container {
+        max-width: 320px;
+        margin-top: 5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .welcome-text {
+        font-size: 1.8rem;
+    }
+
+    .welcome-text::after {
+        height: 30px;
+    }
+
+    .explore-text {
+        font-size: 1.2rem;
+    }
+
+    .solar-system-container {
+        width: 250px;
+        height: 250px;
+        margin: 10rem auto 2rem;
+    }
+
+    .solar-system-text {
+        font-size: 1.2rem;
+        top: 8rem;
+        width: 180%;
+    }
+
+    .jupiter {
+        width: 15px;
+        height: 15px;
+        top: -7.5px;
+    }
+
+    .saturn {
+        width: 12px;
+        height: 12px;
+        top: -6px;
+    }
+
+    .uranus, .neptune {
+        width: 8px;
+        height: 8px;
+        top: -4px;
+    }
+
+    .time-progress-container {
+        max-width: 280px;
+        margin-top: 4rem;
+    }
+
+    .current-time {
+        font-size: 1.8rem;
+    }
+
+    .project-box {
+        flex-direction: column;
+        transform: perspective(800px) rotateX(2deg);
+    }
+}
+
+@media (max-width: 576px) {
+    .welcome-text {
+        font-size: 1.5rem;
+    }
+
+    .explore-text {
+        font-size: 1rem;
+    }
+
+    .loading-percentage {
+        font-size: 2rem;
+    }
+
+    .loading-container {
+        width: 150px;
+        height: 150px;
+    }
+
+    .solar-system-container {
+        width: 200px;
+        height: 200px;
+        margin: 9rem auto 2rem;
+    }
+
+    .solar-system-text {
+        font-size: 1rem;
+        top: 7.5rem;
+        width: 190%;
+    }
+
+    .time-progress-container {
+        max-width: 240px;
+        margin-top: 3.5rem;
+    }
+
+    .current-time {
+        font-size: 1.5rem;
+    }
+
+    .project-box {
+        width: 98%;
+    }
+}
