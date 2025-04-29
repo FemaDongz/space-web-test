@@ -611,4 +611,333 @@ body {
     border-radius: 50%;
     left: 50%;
     top: 8px;
-    transform: translateX(-50%
+    transform: translateX(-50%);
+}
+/* Projects Section */
+.projects-wrapper {
+    padding: 6rem 2rem;
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    background: radial-gradient(circle at center, var(--secondary-bg) 0%, var(--primary-bg) 70%);
+}
+
+.projects-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, var(--text-color), var(--accent-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 15px var(--accent-glow);
+    letter-spacing: 2px;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    opacity: 0.8;
+}
+
+.projects-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2.5rem;
+    perspective: 1000px;
+}
+
+.project-slide {
+    flex: 0 0 calc(33.333% - 2rem);
+    max-width: calc(33.333% - 2rem);
+    margin: 0;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+.project-box {
+    background: var(--box-bg);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    border: 1px solid var(--box-border);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.5s ease;
+    position: relative;
+    z-index: 2;
+    backdrop-filter: blur(5px);
+}
+
+.project-box:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), 0 0 20px var(--accent-glow);
+}
+
+.project-box::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, var(--accent-glow), transparent);
+    transform: rotate(45deg);
+    z-index: -1;
+    animation: shine 6s ease-in-out infinite;
+    opacity: 0.3;
+}
+
+.project-image {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+    position: relative;
+}
+
+.project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.project-box:hover .project-image img {
+    transform: scale(1.1);
+}
+
+.project-content {
+    padding: 1.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.project-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    color: var(--accent-color);
+    margin-bottom: 0.8rem;
+    text-shadow: 0 0 5px var(--accent-glow);
+}
+
+.project-desc {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.8;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.2rem;
+}
+
+.project-tag {
+    background: rgba(168, 85, 247, 0.15);
+    color: var(--accent-color);
+    font-size: 0.7rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 50px;
+    box-shadow: 0 0 5px var(--accent-glow);
+    transition: all 0.3s ease;
+}
+
+.project-tag:hover {
+    background: rgba(168, 85, 247, 0.3);
+    transform: translateY(-2px);
+}
+
+.project-button {
+    background: transparent;
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    padding: 0.5rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', sans-serif;
+    box-shadow: 0 0 10px var(--accent-glow);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.project-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+    transition: all 0.5s ease;
+    z-index: -1;
+}
+
+.project-button:hover {
+    color: var(--primary-bg);
+    background: var(--accent-color);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px var(--accent-glow);
+}
+
+.project-button:hover::before {
+    left: 100%;
+}
+
+/* Animations */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+@keyframes twinkle {
+    0% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.5); }
+}
+
+@keyframes scrollDown {
+    0% { top: 8px; opacity: 1; }
+    50% { top: 32px; opacity: 0.5; }
+    100% { top: 8px; opacity: 1; }
+}
+
+@keyframes wave-glow {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%) rotate(45deg); }
+    50% { transform: translateX(100%) rotate(45deg); }
+    100% { transform: translateX(100%) rotate(45deg); }
+}
+
+/* Media Queries */
+@media (max-width: 1024px) {
+    .solar-system-container {
+        width: 350px;
+        height: 350px;
+    }
+    
+    .project-slide {
+        flex: 0 0 calc(50% - 2rem);
+        max-width: calc(50% - 2rem);
+    }
+}
+
+@media (max-width: 768px) {
+    .welcome-text {
+        font-size: 1.8rem;
+    }
+    
+    .explore-text {
+        font-size: 1.4rem;
+    }
+    
+    .solar-system-text {
+        font-size: 1.6rem;
+    }
+    
+    .solar-system-container {
+        width: 300px;
+        height: 300px;
+    }
+    
+    .project-slide {
+        flex: 0 0 100%;
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    .loading-percentage {
+        font-size: 2rem;
+    }
+    
+    .welcome-text {
+        font-size: 1.5rem;
+    }
+    
+    .explore-text {
+        font-size: 1.2rem;
+    }
+    
+    .solar-system-text {
+        font-size: 1.3rem;
+    }
+    
+    .solar-system-container {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .current-time {
+        font-size: 1.5rem;
+    }
+}
+
+/* Class to be added when intro becomes active */
+.intro.active .time-progress-container {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.intro.active .scroll-indicator {
+    opacity: 1;
+    animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* Classes for animate scroll projects */
+.project-slide.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.projects-header.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: transform 0.8s ease, opacity 0.8s ease;
+}
+
+/* Improved styles for smoother transitions */
+.main-content {
+    opacity: 1;
+    overflow: hidden;
+}
+
+/* Improved 3D effects for project boxes */
+.project-box {
+    transform-style: preserve-3d;
+}
+
+.project-box:hover {
+    transform: translateY(-10px) rotateX(5deg) rotateY(5deg) scale(1.03);
+}
