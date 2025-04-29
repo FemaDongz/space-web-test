@@ -1,0 +1,614 @@
+:root {
+    --primary-bg: #0d0d0d;
+    --secondary-bg: #151515;
+    --text-color: #f5f5f7;
+    --accent-color: #a855f7; /* Neon purple accent */
+    --accent-color-alt: #8a2be2; /* Alternative purple */
+    --accent-glow: rgba(168, 85, 247, 0.35);
+    --box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --box-bg: rgba(15, 15, 15, 0.5);
+    --box-border: rgba(168, 85, 247, 0.15);
+    --gradient-start: rgba(168, 85, 247, 0.2);
+    --gradient-end: rgba(138, 43, 226, 0.1);
+    --star-color-1: rgba(255, 255, 255, 0.8);
+    --star-color-2: rgba(168, 85, 247, 0.8);
+    --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --year-progress: #00ff4c; /* Neon green for year progress */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    height: 100%;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--primary-bg);
+    color: var(--text-color);
+    transition: var(--transition);
+    overflow-y: auto;
+    position: relative;
+    min-height: 100%;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 2;
+}
+
+.main-content {
+    min-height: 100vh;
+    position: relative;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+/* Overlay Particles */
+.overlay-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.particle {
+    position: absolute;
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--accent-glow);
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Loading Screen */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, var(--secondary-bg) 0%, var(--primary-bg) 70%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: opacity 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.loading-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+}
+
+.loading-spinner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px dashed var(--accent-color);
+    animation: spin 3s linear infinite;
+    box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.loading-percentage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    text-shadow: 0 0 10px var(--accent-glow);
+}
+
+.loading-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--text-color);
+    margin-top: 20px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px var(--accent-glow);
+}
+
+.loading-subtext {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 10px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 5px var(--accent-glow);
+}
+
+/* Intro Overlay */
+.intro-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, var(--secondary-bg) 0%, var(--primary-bg) 70%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.welcome-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    text-align: center;
+    background: linear-gradient(to right, var(--text-color), var(--accent-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 15px var(--accent-glow);
+    opacity: 0;
+    position: relative;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.welcome-text .highlight {
+    color: var(--accent-color);
+    text-shadow: 0 0 15px var(--accent-glow);
+}
+
+.welcome-text::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 40px;
+    background-color: var(--accent-color);
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: blink 0.7s infinite;
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.explore-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    color: var(--accent-color);
+    margin-top: 2rem;
+    text-shadow: 0 0 10px var(--accent-glow);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* Stars Background */
+.stars {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.star {
+    position: absolute;
+    background-color: var(--star-color-1);
+    border-radius: 50%;
+    animation: twinkle var(--duration) ease-in-out infinite;
+    opacity: 0;
+}
+
+.star.purple {
+    background-color: var(--star-color-2);
+}
+
+/* Moon Icon */
+.moon {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    width: 40px;
+    height: 40px;
+    z-index: 100;
+    filter: drop-shadow(0 0 10px var(--accent-glow));
+    display: none;
+    cursor: pointer;
+    transform: translateY(-50px);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.moon svg {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.moon:hover svg {
+    transform: scale(1.1) rotate(15deg);
+}
+
+/* Section Styles */
+.section {
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+}
+
+/* Intro Section */
+.intro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    height: 100vh;
+}
+
+.intro-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1000px;
+    margin-top: 80px;
+}
+
+/* Solar System Text */
+.solar-system-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    color: var(--text-color);
+    text-shadow: 0 0 15px var(--accent-glow);
+    letter-spacing: 3px;
+    z-index: 4;
+    position: absolute;
+    top: 18vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    text-align: center;
+}
+
+/* Solar System */
+.solar-system-container {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    margin: 0 auto;
+    opacity: 0;
+    transition: opacity 1s ease;
+    overflow: visible;
+    z-index: 3;
+}
+
+.solar-system {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+
+.sun {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle, #ff9d00, #ff6a00);
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(255, 154, 0, 0.8);
+    z-index: 2;
+}
+
+.orbit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+}
+
+.planet {
+    position: absolute;
+    border-radius: 50%;
+    transform-origin: 50% 50%;
+}
+
+/* Planet Specific Styles */
+.mercury-orbit {
+    width: 80px;
+    height: 80px;
+}
+
+.mercury {
+    width: 4px;
+    height: 4px;
+    background-color: #b0b0b0;
+    top: -2px;
+    left: 50%;
+}
+
+.venus-orbit {
+    width: 120px;
+    height: 120px;
+}
+
+.venus {
+    width: 8px;
+    height: 8px;
+    background-color: #f4d03f;
+    top: -4px;
+    left: 50%;
+}
+
+.earth-orbit {
+    width: 160px;
+    height: 160px;
+}
+
+.earth {
+    width: 8px;
+    height: 8px;
+    background-color: #1e90ff;
+    top: -4px;
+    left: 50%;
+}
+
+.mars-orbit {
+    width: 200px;
+    height: 200px;
+}
+
+.mars {
+    width: 6px;
+    height: 6px;
+    background-color: #d35400;
+    top: -3px;
+    left: 50%;
+}
+
+.jupiter-orbit {
+    width: 240px;
+    height: 240px;
+}
+
+.jupiter {
+    width: 20px;
+    height: 20px;
+    background-color: #e67e22;
+    top: -10px;
+    left: 50%;
+}
+
+.saturn-orbit {
+    width: 280px;
+    height: 280px;
+}
+
+.saturn {
+    width: 16px;
+    height: 16px;
+    background-color: #f7dc6f;
+    top: -8px;
+    left: 50%;
+    position: relative;
+}
+
+.saturn-ring {
+    position: absolute;
+    width: 30px;
+    height: 6px;
+    background-color: rgba(247, 220, 111, 0.5);
+    border-radius: 100%;
+    top: 5px;
+    left: -7px;
+    transform: rotate(30deg);
+}
+
+.uranus-orbit {
+    width: 320px;
+    height: 320px;
+}
+
+.uranus {
+    width: 12px;
+    height: 12px;
+    background-color: #5dade2;
+    top: -6px;
+    left: 50%;
+}
+
+.neptune-orbit {
+    width: 360px;
+    height: 360px;
+}
+
+.neptune {
+    width: 11px;
+    height: 11px;
+    background-color: #2e86c1;
+    top: -5.5px;
+    left: 50%;
+}
+
+.pluto-orbit {
+    width: 390px;
+    height: 390px;
+}
+
+.pluto {
+    width: 3px;
+    height: 3px;
+    background-color: #bdc3c7;
+    top: -1.5px;
+    left: 50%;
+}
+
+/* Time and Year Progress */
+.time-progress-container {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 3rem;
+    padding: 1.5rem;
+    background: rgba(10, 10, 10, 0.7);
+    border-radius: 15px;
+    border: 1px solid var(--accent-glow);
+    box-shadow: 0 0 20px var(--accent-glow), 0 0 30px rgba(0, 255, 76, 0.3);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+    transform: translateY(50px);
+    opacity: 0;
+    transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.8s ease;
+}
+
+.time-progress-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
+    animation: wave-glow 6s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+    opacity: 0.3;
+}
+
+.current-time {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    text-align: center;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px var(--accent-glow);
+    position: relative;
+}
+
+.year-progress {
+    width: 100%;
+    position: relative;
+}
+
+.progress-explanation {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+    text-align: center;
+    text-shadow: 0 0 5px var(--accent-glow);
+}
+
+.progress-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 5px var(--accent-glow);
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 6px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 0 10px var(--year-progress);
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--year-progress);
+    width: 0%;
+    border-radius: 3px;
+    box-shadow: 0 0 8px var(--year-progress);
+    transition: width 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.progress-percentage {
+    font-size: 0.9rem;
+    color: var(--year-progress);
+    text-align: right;
+    margin-bottom: 0.25rem;
+    text-shadow: 0 0 5px var(--year-progress);
+}
+
+.progress-days {
+    font-size: 0.8rem;
+    color: var(--text-color);
+    opacity: 0.8;
+    text-align: right;
+    text-shadow: 0 0 5px var(--accent-glow);
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    z-index: 5;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.scroll-indicator:hover {
+    transform: translateX(-50%) translateY(5px);
+}
+
+.scroll-text {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    color: var(--accent-color);
+    font-family: 'Orbitron', sans-serif;
+    text-shadow: 0 0 10px var(--accent-glow);
+}
+
+.scroll-icon {
+    width: 30px;
+    height: 50px;
+    border: 2px solid var(--accent-color);
+    border-radius: 25px;
+    position: relative;
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.scroll-icon::before {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    left: 50%;
+    top: 8px;
+    transform: translateX(-50%
